@@ -1,18 +1,19 @@
 set nocompatible                " choose no compatibility with legacy vi
 
-" For Vundle " {{{
+" For Vundle {{{
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 Bundle 'gmarik/vundle'
-" " }}}
+" }}}
 
 " Colorscheme {{{
 Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'tpope/vim-vividchalk'
+Bundle 'altercation/vim-colors-solarized'
 " Silent prevents vim from complaining during initial setup when scheme is not
 " available.
-silent! colorscheme vividchalk
+silent! colorscheme solarized
 "color ir_black
 "colorscheme Tomorrow-Night-Bright
 set background=dark
@@ -44,7 +45,7 @@ endif
 if has("gui_macvim")
   set guifont=Menlo\ Regular:h12
   set macmeta
-  set transparency=15
+"  set transparency=15
   map <D-t> :CommandT<CR>
   "macmenu &File.New\ Tab key=<nop>
 endif
@@ -57,10 +58,14 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 set undofile
 set undodir=~/.vim/tmp
-"set ttyfast
+set ttyfast
+set wildmenu
+
+" From http://robots.thoughtbot.com/post/27041742805/vim-you-complete-me
+"set complete=.,b,u,]
+"set wildmode=longest,list:longest
 
 " Map ESC
-imap jj <ESC>
 let mapleader = ","               " The default leader key isn't very intuitive.
 
 set number
@@ -73,11 +78,14 @@ set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 
+" Indicators
 set list                          " Show hidden characters (tab and eol)
 "set listchars=trail:⋅,nbsp:⋅,tab:▸\ ,eol:¬       " Use the same chars as textmate.
 set listchars=trail:⋅,nbsp:⋅,tab:▸\        " Use the same chars as textmate.
+"set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
+set showbreak=↪\ 
 
-"" Searching
+" Searching
 set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
@@ -105,14 +113,19 @@ set history=50    " keep 50 lines of command line history
 set ruler         " show the cursor position all the time
 set laststatus=2
 
+"set clipboard=unnamed " use OS clipboard
+set title " terminal title
+set autoread " load change files
+
 " Clears the search register
 nmap <silent> <leader>/ :nohlsearch<CR>
 
+" select last pasted
 nnoremap gp `[v`]
 
 "nnoremap <leader><space> :noh<cr>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>a :Ack 
+nnoremap <leader>a :Ack
 nnoremap <leader>q gqip
 
 " Reselect visual block after indent/outdent
@@ -142,6 +155,12 @@ nnoremap <leader>== yyPv$r=jyypv$r=
 nnoremap <leader>** yyPv$r*jyypv$r*
 nnoremap <leader>=  yypv$r=
 nnoremap <leader>-  yypv$r-
+
+:nnoremap <Space> za
+" :nnoremap <CR> :nohlsearch<cr>
+set splitright
+set splitbelow
+
 "}}}
 
 " Syntax Highlighting {{{
@@ -152,19 +171,16 @@ autocmd! BufNewFile,BufRead *.pp setlocal ft=puppet
 
 " Folding {{{
 set foldmethod=marker
+
+" http://vim.wikia.com/wiki/Use_folds_in_your_program
+" augroup vimrc
+"   au BufReadPre * setlocal foldmethod=indent
+"   au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+" augroup END
+
 "Fold Tag
 "http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 nnoremap <leader>ft Vatzf
-"}}}
-
-" Fugitive {{{
-Bundle 'tpope/vim-fugitive'
-
-noremap ggs :Gstatus<cr>
-noremap ggc :Gcommit<cr>
-noremap gga :Gwrite<cr>
-noremap ggl :Glog<cr>
-noremap ggd :Gdiff<cr>
 "}}}
 
 " Command-T plugin {{{
@@ -177,6 +193,7 @@ Bundle 'kien/ctrlp.vim'
 
 map <leader>t :CtrlP<CR>
 let g:ctrlp_custom_ignore = 'vendor/bundle'
+let g:ctrlp_working_path_mode = 'ra'
 " }}}
 
 " NERD Tree {{{
@@ -209,7 +226,7 @@ let NERDTreeMouseMode=2
 
 " Don't display these kinds of files
 let NERDTreeIgnore=[ '\.swp$','\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
-            \ '\.o$', '\.so$', '\.egg$', '^\.git$', '\.DS_Store$' ]
+            \ '\.o$', '\.so$', '\.egg$', '^\.git$', '\.DS_Store$', '^\.bundle$' ]
 
 " Quit vim if nerdtree is last buffer
 " https://github.com/scrooloose/nerdtree/issues/21
@@ -226,15 +243,78 @@ Bundle 'Lokaltog/vim-powerline'
 
 " Supertab and snipmate together {{{
 Bundle 'ervandew/supertab'
-Bundle 'msanders/snipmate.vim'
+"Bundle 'msanders/snipmate.vim'
 " http://superuser.com/questions/172266/vim-how-to-work-with-both-supertab-vim-with-snipmate-vim
 "let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+"let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
 "}}}
 
 " YankRing {{{
 Bundle 'vim-scripts/YankRing.vim'
 let g:yankring_history_dir = "$HOME/.vim/tmp/"
+"}}}
+
+" Undotree {{{
+Bundle "mbbill/undotree"
+nnoremap <leader>u :UndotreeToggle<cr>
+" }}}
+
+" Tabular {{{
+Bundle 'godlygeek/tabular'
+
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a{ :Tabularize /{<CR>
+vmap <Leader>a{ :Tabularize /{<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
+nmap <Leader>a, :Tabularize /,\zs<CR>
+vmap <Leader>a, :Tabularize /,\zs<CR>
+nmap <Leader>a> :Tabularize /=><CR>
+vmap <Leader>a> :Tabularize /=><CR>
+nmap <Leader>a\| :Tabularize /\|<CR>
+vmap <Leader>a\| :Tabularize /\|<CR>
+" }}}
+
+" Vimux {{{
+Bundle 'benmills/vimux'
+" " Prompt for a command to run
+" map rp :PromptVimTmuxCommand
+
+" " Run last command executed by RunVimTmuxCommand
+" map rl :RunLastVimTmuxCommand
+
+" " Inspect runner pane
+" map ri :InspectVimTmuxRunner
+
+" " Close all other tmux panes in current window
+" map rx :CloseVimTmuxPanes
+
+" " Interrupt any command running in the runner pane
+" map rs :InterruptVimTmuxRunner
+" }}}
+
+" vim-turbux {{{
+Bundle 'jgdavey/vim-turbux'
+
+let g:no_turbux_mappings = 1
+let g:turbux_command_prefix = 'bundle exec'
+map <leader>R <Plug>SendTestToTmux
+map <leader>r <Plug>SendFocusedTestToTmux
+" }}}
+
+" git {{{
+
+autocmd Filetype gitcommit setlocal spell
+
+" Fugitive {{{
+Bundle 'tpope/vim-fugitive'
+
+noremap <leader>gs :Gstatus<cr>
+noremap <leader>gc :Gcommit<cr>
+noremap <leader>ga :Gwrite<cr>
+noremap <leader>gl :Glog<cr>
+noremap <leader>gd :Gdiff<cr>
 "}}}
 
 " Git Gutter {{{
@@ -243,11 +323,7 @@ Bundle 'airblade/vim-gitgutter'
 " Make git gutter background clear
 highlight clear SignColumn
 "}}}
-
-" Undotree {{{
-Bundle "mbbill/undotree"
-nnoremap <leader>u :UndotreeToggle<cr>
-" }}}
+"}}}
 
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-bundler'
@@ -257,9 +333,53 @@ Bundle 'mileszs/ack.vim'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'tpope/vim-rbenv'
 Bundle 'vim-scripts/bufexplorer.zip'
-Bundle 'vim-scripts/vimwiki'
+"Bundle 'vim-scripts/vimwiki'
 Bundle 'vim-scripts/peaksea'
-Bundle 'scrooloose/nerdcommenter'
+"Bundle 'scrooloose/nerdcommenter'
+Bundle 'tpope/vim-commentary'
 Bundle 'puppetlabs/puppet-syntax-vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'nelstrom/vim-markdown-folding'
+Bundle 'tpope/vim-eunuch'
+
+" Rspec experiments {{{
+" Bundle 'thoughtbot/vim-rspec' 
+" map <Leader>r :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" let g:rspec_command = "!bundle exec rspec {spec}"
+" }}}
+
+" Rspec experiments {{{
+" Found at https://coderwall.com/p/vykcuq
+" Run RSpec examples. Loosely inspired by: https://gist.github.com/1062296
+" function! RunSpec(args)
+"   let cmd = "bundle exec rspec " . a:args . " " . @%
+"   execute ":! echo " . cmd . " && " . cmd
+" endfunction
+
+" map <silent> <leader>r :call RunSpec("") <CR>
+" map <silent> <leader>re :call RunSpec("-fn -l " . line('.')) <CR>
+" }}}
+
+" vim-vroom {{{
+" Bundle 'skalnik/vim-vroom'
+
+" let g:vroom_write_all = 1 " write all before running tests
+" let g:vroom_clear_screen = 1
+
+" "let g:vroom_map_keys = 0 " unset existing mappings
+" "let g:vroom_use_binstubs = 0
+" "let g:vroom_use_bundle_exec = 1
+" "let g:vroom_use_colors = 1
+" "let g:vroom_use_vimux = 1 " run tests in tmux pane
+
+" nmap <leader>tr :call vroom#RunTestFile()<CR>
+" nmap <leader>tR :call vroom#RunNearestTest()<CR>
+
+" let cwt_use_spin = {'runner':'spin push'}
+" nmap <leader>ts :call vroom#RunTestFile(cwt_use_spin)<CR>
+" nmap <leader>tS :call vroom#RunNearestTest(cwt_use_spin)<CR>
+" }}}
 
 filetype plugin indent on
