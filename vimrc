@@ -56,8 +56,10 @@ endif
 syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
-set undofile
-set undodir=~/.vim/tmp
+if version >= 703
+  set undofile
+  set undodir=~/.vim/tmp
+endif
 set ttyfast
 set wildmenu
 
