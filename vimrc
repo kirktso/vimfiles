@@ -17,6 +17,7 @@ silent! colorscheme solarized
 "color ir_black
 "colorscheme Tomorrow-Night-Bright
 set background=dark
+    call togglebg#map("<F5>")
 "}}}
 
 " For GUI {{{
