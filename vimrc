@@ -7,7 +7,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 " }}}
 
-" Colorscheme {{{
+" Colorschemes {{{
 Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'tpope/vim-vividchalk'
 Bundle 'altercation/vim-colors-solarized'
@@ -16,9 +16,19 @@ Bundle 'altercation/vim-colors-solarized'
 silent! colorscheme solarized
 "color ir_black
 "colorscheme Tomorrow-Night-Bright
-set background=dark
-    call togglebg#map("<F5>")
+set background=light
+call togglebg#map("<F5>")
 "}}}
+
+" Set Font {{{
+if has("gui")
+  if has("gui_gtk2")
+    set guifont=DejaVu\ Sans\ Mono\ 13
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h14
+  endif
+endif
+" }}}
 
 " For GUI {{{
 if has("gui")
@@ -44,7 +54,6 @@ endif
 
 " For MacVim {{{
 if has("gui_macvim")
-  set guifont=Menlo\ Regular:h12
   set macmeta
 "  set transparency=15
   map <D-t> :CommandT<CR>
@@ -81,12 +90,15 @@ set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 
+" Use the OS clipboard by default
+set clipboard=unnamed
+
 " Indicators
 set list                          " Show hidden characters (tab and eol)
 "set listchars=trail:⋅,nbsp:⋅,tab:▸\ ,eol:¬       " Use the same chars as textmate.
-set listchars=trail:⋅,nbsp:⋅,tab:▸\        " Use the same chars as textmate.
+set listchars=trail:⋅,nbsp:⋅,tab:▸\
 "set listchars=tab:▸\ ,trail:•,extends:❯,precedes:❮
-set showbreak=↪\ 
+set showbreak=↪\
 
 " Searching
 set hlsearch                    " highlight matches
@@ -160,7 +172,6 @@ nnoremap <leader>=  yypv$r=
 nnoremap <leader>-  yypv$r-
 
 :nnoremap <Space> za
-" :nnoremap <CR> :nohlsearch<cr>
 set splitright
 set splitbelow
 
@@ -229,7 +240,7 @@ let NERDTreeMouseMode=2
 
 " Don't display these kinds of files
 let NERDTreeIgnore=[ '\.swp$','\.pyc$', '\.pyo$', '\.py\$class$', '\.obj$',
-            \ '\.o$', '\.so$', '\.egg$', '^\.git$', '\.DS_Store$', '^\.bundle$' ]
+            \ '\.o$', '\.so$', '\.egg$', '^\.git$', '\.DS_Store$', '^\.bundle$', '\.keep$']
 
 " Quit vim if nerdtree is last buffer
 " https://github.com/scrooloose/nerdtree/issues/21
@@ -298,17 +309,17 @@ Bundle 'benmills/vimux'
 " }}}
 
 " vim-turbux {{{
-Bundle 'jgdavey/vim-turbux'
+" Bundle 'jgdavey/vim-turbux'
 
-let g:no_turbux_mappings = 1
-let g:turbux_command_prefix = 'bundle exec'
-map <leader>R <Plug>SendTestToTmux
-map <leader>r <Plug>SendFocusedTestToTmux
+" let g:no_turbux_mappings = 1
+" let g:turbux_command_prefix = 'bundle exec'
+" map <leader>R <Plug>SendTestToTmux
+" map <leader>r <Plug>SendFocusedTestToTmux
 " }}}
 
 " git {{{
-
 autocmd Filetype gitcommit setlocal spell
+"}}}
 
 " Fugitive {{{
 Bundle 'tpope/vim-fugitive'
@@ -326,7 +337,6 @@ Bundle 'airblade/vim-gitgutter'
 " Make git gutter background clear
 highlight clear SignColumn
 "}}}
-"}}}
 
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-bundler'
@@ -336,53 +346,31 @@ Bundle 'mileszs/ack.vim'
 Bundle 'nathanaelkane/vim-indent-guides'
 Bundle 'tpope/vim-rbenv'
 Bundle 'vim-scripts/bufexplorer.zip'
-"Bundle 'vim-scripts/vimwiki'
 Bundle 'vim-scripts/peaksea'
-"Bundle 'scrooloose/nerdcommenter'
 Bundle 'tpope/vim-commentary'
 Bundle 'puppetlabs/puppet-syntax-vim'
 Bundle 'tpope/vim-markdown'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'tpope/vim-eunuch'
 
-" Rspec experiments {{{
-" Bundle 'thoughtbot/vim-rspec' 
-" map <Leader>r :call RunCurrentSpecFile()<CR>
-" map <Leader>s :call RunNearestSpec()<CR>
-" map <Leader>l :call RunLastSpec()<CR>
-" let g:rspec_command = "!bundle exec rspec {spec}"
-" }}}
+" {{{ vim-haml
+" This is for SASS syntax in vim 7.1
+Bundle 'tpope/vim-haml'
+autocmd! BufNewFile,BufRead *.scss setlocal ft=scss
+"}}}
 
-" Rspec experiments {{{
-" Found at https://coderwall.com/p/vykcuq
-" Run RSpec examples. Loosely inspired by: https://gist.github.com/1062296
-" function! RunSpec(args)
-"   let cmd = "bundle exec rspec " . a:args . " " . @%
-"   execute ":! echo " . cmd . " && " . cmd
-" endfunction
+" Rspec {{{
+" vim-ruby is required for this to work. Probably because
+" of older version of vim on work machine.
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'thoughtbot/vim-rspec'
+Bundle 'tpope/vim-dispatch'
 
-" map <silent> <leader>r :call RunSpec("") <CR>
-" map <silent> <leader>re :call RunSpec("-fn -l " . line('.')) <CR>
-" }}}
+let g:rspec_command = "Dispatch rspec {spec}"
 
-" vim-vroom {{{
-" Bundle 'skalnik/vim-vroom'
-
-" let g:vroom_write_all = 1 " write all before running tests
-" let g:vroom_clear_screen = 1
-
-" "let g:vroom_map_keys = 0 " unset existing mappings
-" "let g:vroom_use_binstubs = 0
-" "let g:vroom_use_bundle_exec = 1
-" "let g:vroom_use_colors = 1
-" "let g:vroom_use_vimux = 1 " run tests in tmux pane
-
-" nmap <leader>tr :call vroom#RunTestFile()<CR>
-" nmap <leader>tR :call vroom#RunNearestTest()<CR>
-
-" let cwt_use_spin = {'runner':'spin push'}
-" nmap <leader>ts :call vroom#RunTestFile(cwt_use_spin)<CR>
-" nmap <leader>tS :call vroom#RunNearestTest(cwt_use_spin)<CR>
+map <Leader>r :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
 " }}}
 
 filetype plugin indent on
