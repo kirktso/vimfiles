@@ -47,7 +47,9 @@ if has("gui")
 
   " Start without the toolbar
   set guioptions-=T
-  " No scroll bar
+  " No menu
+  set guioptions-=m
+  " No scroll bars
   set guioptions-=L
 endif
 " }}}
@@ -181,6 +183,7 @@ set splitbelow
 autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 autocmd! BufNewFile,BufRead *.pp setlocal ft=puppet
+autocmd! BufNewFile,BufRead *.md setlocal ft=markdown
 "}}}
 
 " Folding {{{
@@ -336,6 +339,8 @@ Bundle 'airblade/vim-gitgutter'
 
 " Make git gutter background clear
 highlight clear SignColumn
+autocmd ColorScheme * highlight clear SignColumn
+let g:gitgutter_realtime = 0
 "}}}
 
 Bundle 'tpope/vim-endwise'
@@ -370,7 +375,7 @@ Bundle 'tpope/vim-dispatch'
 let g:rspec_command = "Dispatch rspec {spec}"
 
 map <Leader>r :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
+"map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 " }}}
 
