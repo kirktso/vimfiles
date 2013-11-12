@@ -23,7 +23,7 @@ call togglebg#map("<F5>")
 " Set Font {{{
 if has("gui")
   if has("gui_gtk2")
-    set guifont=DejaVu\ Sans\ Mono\ 13
+    set guifont=DejaVu\ Sans\ Mono\ 10
   elseif has("gui_macvim")
     set guifont=Menlo\ Regular:h14
   endif
