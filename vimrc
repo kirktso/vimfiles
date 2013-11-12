@@ -250,7 +250,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "}}}
 
 " Powerline {{{
-Bundle 'Lokaltog/vim-powerline'
+"Bundle 'Lokaltog/vim-powerline'
 
 "let g:Powerline_symbols = 'unicode'
 "}}}
@@ -352,6 +352,7 @@ Bundle 'puppetlabs/puppet-syntax-vim'
 Bundle 'tpope/vim-markdown'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'tpope/vim-eunuch'
+Bundle 'bling/vim-airline'
 
 " {{{ vim-haml
 " This is for SASS syntax in vim 7.1
