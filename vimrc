@@ -375,7 +375,7 @@ Bundle 'tpope/vim-dispatch'
 let g:rspec_command = "Dispatch rspec {spec}"
 
 map <Leader>r :call RunCurrentSpecFile()<CR>
-"map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>e :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
 " }}}
 
