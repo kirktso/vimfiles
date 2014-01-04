@@ -16,7 +16,7 @@ Bundle 'altercation/vim-colors-solarized'
 silent! colorscheme solarized
 "color ir_black
 "colorscheme Tomorrow-Night-Bright
-set background=light
+set background=dark
 call togglebg#map("<F5>")
 "}}}
 
@@ -156,11 +156,11 @@ noremap <leader>v <C-w>v
 noremap <leader>s <C-w>s
 
 " Edit the vimrc file
-nmap <silent> <leader>ev :e $MYVIMRC<CR>
-nmap <silent> <leader>sv :so $MYVIMRC<CR>
+"nmap <silent> <leader>ev :e $MYVIMRC<CR>
+"nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 nmap <silent> <leader>h :set invlist<CR>
-nmap <silent> <leader>l :set invnumber<CR>
+"nmap <silent> <leader>l :set invnumber<CR>
 nmap <silent> <leader>p :set invpaste<CR>
 
 " Open last buffer: http://www.vimbits.com/bits/22
@@ -294,7 +294,7 @@ vmap <Leader>a\| :Tabularize /\|<CR>
 " }}}
 
 " Vimux {{{
-Bundle 'benmills/vimux'
+" Bundle 'benmills/vimux'
 " " Prompt for a command to run
 " map rp :PromptVimTmuxCommand
 
@@ -343,6 +343,12 @@ autocmd ColorScheme * highlight clear SignColumn
 let g:gitgutter_realtime = 0
 "}}}
 
+" {{{ vim-haml
+" This is for SASS syntax in vim 7.1
+Bundle 'tpope/vim-haml'
+autocmd! BufNewFile,BufRead *.scss setlocal ft=scss
+"}}}
+
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-surround'
@@ -358,25 +364,47 @@ Bundle 'tpope/vim-markdown'
 Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'tpope/vim-eunuch'
 Bundle 'bling/vim-airline'
+Bundle 'tpope/vim-dispatch'
 
-" {{{ vim-haml
-" This is for SASS syntax in vim 7.1
-Bundle 'tpope/vim-haml'
-autocmd! BufNewFile,BufRead *.scss setlocal ft=scss
-"}}}
+autocmd FileType ruby
+  \ if expand("%") =~# '_spec\.rb$' |
+  \   compiler rspec | setl makeprg=spring\ rspec\ $*|
+  \ else |
+  \   compiler ruby | setl makeprg=ruby\ -wc\ \"%:p\" |
+  \ endif
+
+" http://blog.santosvelasco.com/2012/07/04/vim-and-rspec-run-the-test-under-the-cursor/
+function! RSpecFile()
+  "execute("!clear && rspec " . expand("%p"))
+  execute("!rspec " . expand("%p"))
+endfunction
+map <leader>R :call RSpecFile() <CR>
+command! RSpecFile call RSpecFile()
+
+function! RSpecCurrent()
+"  execute("!clear && rspec " . expand("%p") . ":" . line("."))
+  execute("!rspec " . expand("%p") . ":" . line("."))
+endfunction
+map <leader>r :call RSpecCurrent() <CR>
+command! RSpecCurrent call RSpecCurrent()
+
+function! RSpecParse()
+  execute("Make " . expand("%") . ":" . line("."))
+endfunction
+map <leader>e :call RSpecParse() <CR>
+command! RSpecParse call RSpecParse()
 
 " Rspec {{{
 " vim-ruby is required for this to work. Probably because
 " of older version of vim on work machine.
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'thoughtbot/vim-rspec'
-Bundle 'tpope/vim-dispatch'
+"Bundle 'vim-ruby/vim-ruby'
+"Bundle 'thoughtbot/vim-rspec'
 
-let g:rspec_command = "Dispatch rspec {spec}"
+"let g:rspec_command = "!spring rspec {spec}"
 
-map <Leader>r :call RunCurrentSpecFile()<CR>
-map <Leader>e :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
+"map <Leader>r :call RunCurrentSpecFile()<CR>
+"map <Leader>e :call RunNearestSpec()<CR>
+"map <Leader>l :call RunLastSpec()<CR>
 " }}}
 
 filetype plugin indent on
