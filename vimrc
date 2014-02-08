@@ -10,6 +10,7 @@ Bundle 'gmarik/vundle'
 " Colorschemes {{{
 Bundle 'chriskempson/vim-tomorrow-theme'
 Bundle 'tpope/vim-vividchalk'
+Bundle 'chriskempson/base16-vim'
 Bundle 'altercation/vim-colors-solarized'
 " Silent prevents vim from complaining during initial setup when scheme is not
 " available.
@@ -341,6 +342,7 @@ Bundle 'airblade/vim-gitgutter'
 highlight clear SignColumn
 autocmd ColorScheme * highlight clear SignColumn
 let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
 "}}}
 
 " {{{ vim-haml
