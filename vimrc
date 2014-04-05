@@ -351,6 +351,14 @@ Bundle 'tpope/vim-haml'
 autocmd! BufNewFile,BufRead *.scss setlocal ft=scss
 "}}}
 
+
+" {{{ markdown
+Bundle 'tpope/vim-markdown'
+let g:markdown_fenced_languages=['ruby','erb=eruby','javascript','html','sh']
+
+Bundle 'nelstrom/vim-markdown-folding'
+"}}}
+
 Bundle 'tpope/vim-endwise'
 Bundle 'tpope/vim-bundler'
 Bundle 'tpope/vim-surround'
@@ -362,8 +370,6 @@ Bundle 'vim-scripts/bufexplorer.zip'
 Bundle 'vim-scripts/peaksea'
 Bundle 'tpope/vim-commentary'
 Bundle 'puppetlabs/puppet-syntax-vim'
-Bundle 'tpope/vim-markdown'
-Bundle 'nelstrom/vim-markdown-folding'
 Bundle 'tpope/vim-eunuch'
 Bundle 'bling/vim-airline'
 Bundle 'tpope/vim-dispatch'
