@@ -143,7 +143,6 @@ nnoremap gp `[v`]
 
 "nnoremap <leader><space> :noh<cr>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>a :Ack
 nnoremap <leader>q gqip
 
 " Reselect visual block after indent/outdent
@@ -372,7 +371,6 @@ Bundle 'tpope/vim-commentary'
 Bundle 'puppetlabs/puppet-syntax-vim'
 Bundle 'tpope/vim-eunuch'
 Bundle 'bling/vim-airline'
-Bundle 'tpope/vim-dispatch'
 
 autocmd FileType ruby
   \ if expand("%") =~# '_spec\.rb$' |
@@ -382,37 +380,40 @@ autocmd FileType ruby
   \ endif
 
 " http://blog.santosvelasco.com/2012/07/04/vim-and-rspec-run-the-test-under-the-cursor/
-function! RSpecFile()
-  "execute("!clear && rspec " . expand("%p"))
-  execute("!rspec " . expand("%p"))
-endfunction
-map <leader>R :call RSpecFile() <CR>
-command! RSpecFile call RSpecFile()
+" function! RSpecFile()
+"   "execute("!clear && rspec " . expand("%p"))
+"   execute("!rspec " . expand("%p"))
+" endfunction
+" map <leader>R :call RSpecFile() <CR>
+" command! RSpecFile call RSpecFile()
 
-function! RSpecCurrent()
-"  execute("!clear && rspec " . expand("%p") . ":" . line("."))
-  execute("!rspec " . expand("%p") . ":" . line("."))
-endfunction
-map <leader>r :call RSpecCurrent() <CR>
-command! RSpecCurrent call RSpecCurrent()
+" function! RSpecCurrent()
+" "  execute("!clear && rspec " . expand("%p") . ":" . line("."))
+"   execute("!rspec " . expand("%p") . ":" . line("."))
+" endfunction
+" map <leader>r :call RSpecCurrent() <CR>
+" command! RSpecCurrent call RSpecCurrent()
 
-function! RSpecParse()
-  execute("Make " . expand("%") . ":" . line("."))
-endfunction
-map <leader>e :call RSpecParse() <CR>
-command! RSpecParse call RSpecParse()
+" function! RSpecParse()
+"   execute("Make " . expand("%") . ":" . line("."))
+" endfunction
+" map <leader>e :call RSpecParse() <CR>
+" command! RSpecParse call RSpecParse()
 
 " Rspec {{{
 " vim-ruby is required for this to work. Probably because
 " of older version of vim on work machine.
 "Bundle 'vim-ruby/vim-ruby'
-"Bundle 'thoughtbot/vim-rspec'
+Bundle 'thoughtbot/vim-rspec'
 
 "let g:rspec_command = "!spring rspec {spec}"
 
-"map <Leader>r :call RunCurrentSpecFile()<CR>
-"map <Leader>e :call RunNearestSpec()<CR>
-"map <Leader>l :call RunLastSpec()<CR>
+map <Leader>r :call RunCurrentSpecFile()<CR>
+map <Leader>e :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
 " }}}
+
+"Bundle 'tpope/vim-dispatch'
 
 filetype plugin indent on
