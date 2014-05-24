@@ -75,6 +75,7 @@ if version >= 703
 endif
 set ttyfast
 set wildmenu
+set mouse=a
 
 " From http://robots.thoughtbot.com/post/27041742805/vim-you-complete-me
 "set complete=.,b,u,]
@@ -354,8 +355,6 @@ autocmd! BufNewFile,BufRead *.scss setlocal ft=scss
 " {{{ markdown
 Bundle 'tpope/vim-markdown'
 let g:markdown_fenced_languages=['ruby','erb=eruby','javascript','html','sh']
-
-Bundle 'nelstrom/vim-markdown-folding'
 "}}}
 
 Bundle 'tpope/vim-endwise'
