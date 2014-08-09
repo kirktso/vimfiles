@@ -187,6 +187,11 @@ autocmd! BufNewFile,BufRead *.pp setlocal ft=puppet
 autocmd! BufNewFile,BufRead *.md setlocal ft=markdown
 "}}}
 
+" Spell Checking {{{
+autocmd Filetype gitcommit setlocal spell
+autocmd Filetype markdown setlocal spell
+"}}}
+
 " Folding {{{
 set foldmethod=marker
 
@@ -320,10 +325,6 @@ vmap <Leader>a\| :Tabularize /\|<CR>
 " map <leader>R <Plug>SendTestToTmux
 " map <leader>r <Plug>SendFocusedTestToTmux
 " }}}
-
-" git {{{
-autocmd Filetype gitcommit setlocal spell
-"}}}
 
 " Fugitive {{{
 Bundle 'tpope/vim-fugitive'
