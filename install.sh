@@ -19,9 +19,9 @@ info "Processing vim files"
 link vimrc
 
 info "Install Vundle"
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 info "Install Vundles"
-vim +BundleInstall +qall
+vim +PluginInstall +qall
 
 info "Complete"
