@@ -2,26 +2,60 @@ set nocompatible                " choose no compatibility with legacy vi
 
 " For Vundle {{{
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'chriskempson/vim-tomorrow-theme'
+Plugin 'tpope/vim-vividchalk'
+Plugin 'chriskempson/base16-vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'ervandew/supertab'
+Plugin 'vim-scripts/YankRing.vim'
+Plugin 'mbbill/undotree'
+Plugin 'godlygeek/tabular'
+Plugin 'tpope/vim-fugitive'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-bundler'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-rails.git'
+Plugin 'mileszs/ack.vim'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'tpope/vim-rbenv'
+Plugin 'vim-scripts/bufexplorer.zip'
+Plugin 'vim-scripts/peaksea'
+Plugin 'tpope/vim-commentary'
+Plugin 'puppetlabs/puppet-syntax-vim'
+Plugin 'tpope/vim-eunuch'
+Plugin 'bling/vim-airline'
+Plugin 'chase/vim-ansible-yaml'
+Plugin 'thoughtbot/vim-rspec'
+
+" Plugin 'tpope/vim-dispatch'
+" Plugin 'msanders/snipmate.vim'
+" Plugin 'tpope/vim-haml'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 " }}}
 
-" Colorschemes {{{
-Bundle 'chriskempson/vim-tomorrow-theme'
-Bundle 'tpope/vim-vividchalk'
-Bundle 'chriskempson/base16-vim'
-Bundle 'altercation/vim-colors-solarized'
+" Set Color Scheme {{{
 " Silent prevents vim from complaining during initial setup when scheme is not
 " available.
-silent! colorscheme solarized
+" silent! colorscheme solarized
+colorscheme solarized
 "color ir_black
 "colorscheme Tomorrow-Night-Bright
 set background=dark
 call togglebg#map("<F5>")
-"}}}
+" }}}
 
-" Set Font {{{
+" Set Font for GUI {{{
 if has("gui")
   if has("gui_gtk2")
     set guifont=DejaVu\ Sans\ Mono\ 10
@@ -31,7 +65,7 @@ if has("gui")
 endif
 " }}}
 
-" For GUI {{{
+" Other GUI Settings {{{
 if has("gui")
   set linespace=2
   set antialias
@@ -65,14 +99,10 @@ endif
 "}}}
 
 " Vim Settings {{{
-"set colorcolumn=80
+set colorcolumn=80
 syntax enable
 set encoding=utf-8
 set showcmd                     " display incomplete commands
-if version >= 703
-  set undofile
-  set undodir=~/.vim/tmp
-endif
 set ttyfast
 set wildmenu
 set mouse=a
@@ -125,14 +155,17 @@ map <silent> <A-l> <C-w>>
 "set ai           " always set autoindenting on
 
 set backup       " keep a backup file
-set backupdir=~/.vim/backup
-set directory=~/.vim/tmp
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+if version >= 703
+  set undofile
+  set undodir=~/.vim/undo//
+endif
 
 set history=50    " keep 50 lines of command line history
 set ruler         " show the cursor position all the time
 set laststatus=2
 
-"set clipboard=unnamed " use OS clipboard
 set title " terminal title
 set autoread " load change files
 
@@ -142,7 +175,6 @@ nmap <silent> <leader>/ :nohlsearch<CR>
 " select last pasted
 nnoremap gp `[v`]
 
-"nnoremap <leader><space> :noh<cr>
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>q gqip
 
@@ -177,10 +209,9 @@ nnoremap <leader>-  yypv$r-
 :nnoremap <Space> za
 set splitright
 set splitbelow
-
 "}}}
 
-" Syntax Highlighting {{{
+" Syntax Highlighting and File Types {{{
 autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
 autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
 autocmd! BufNewFile,BufRead *.pp setlocal ft=puppet
@@ -206,29 +237,20 @@ set foldmethod=marker
 nnoremap <leader>ft Vatzf
 "}}}
 
-" Command-T plugin {{{
-"map <leader>f :CommandTFlush<CR>
-"map <leader>t :CommandT<CR>
-"}}}
-
 " Ctrl-P plugin {{{
-Bundle 'kien/ctrlp.vim'
-
 map <leader>t :CtrlP<CR>
 let g:ctrlp_custom_ignore = 'vendor/bundle'
 let g:ctrlp_working_path_mode = 'ra'
 " }}}
 
 " NERD Tree {{{
-Bundle 'scrooloose/nerdtree'
-
 " Put focus to the NERD Tree with F3 (tricked by quickly closing it and
 " immediately showing it again, since there is no :NERDTreeFocus command)
 nmap <leader>m :NERDTreeClose<CR>:NERDTreeFind<CR>
 nmap <leader>n :NERDTreeToggle<CR>
 
 " Store the bookmarks file
-let NERDTreeBookmarksFile=expand("$HOME/.vim/tmp/NERDTreeBookmarks")
+"let NERDTreeBookmarksFile=expand("$HOME/.vim/tmp/NERDTreeBookmarks")
 
 " Show the bookmarks table on startup
 let NERDTreeShowBookmarks=1
@@ -258,33 +280,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 "let g:NERDTreeWinPos = "right"
 "}}}
 
-" Powerline {{{
-"Bundle 'Lokaltog/vim-powerline'
-
-"let g:Powerline_symbols = 'unicode'
-"}}}
-
-" Supertab and snipmate together {{{
-Bundle 'ervandew/supertab'
-"Bundle 'msanders/snipmate.vim'
-" http://superuser.com/questions/172266/vim-how-to-work-with-both-supertab-vim-with-snipmate-vim
-"let g:SuperTabDefaultCompletionType = "context"
-"let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
-"}}}
-
-" YankRing {{{
-Bundle 'vim-scripts/YankRing.vim'
-let g:yankring_history_dir = "$HOME/.vim/tmp/"
-"}}}
-
 " Undotree {{{
-Bundle "mbbill/undotree"
 nnoremap <leader>u :UndotreeToggle<cr>
 " }}}
 
 " Tabular {{{
-Bundle 'godlygeek/tabular'
-
 nmap <Leader>a= :Tabularize /=<CR>
 vmap <Leader>a= :Tabularize /=<CR>
 nmap <Leader>a{ :Tabularize /{<CR>
@@ -299,36 +299,7 @@ nmap <Leader>a\| :Tabularize /\|<CR>
 vmap <Leader>a\| :Tabularize /\|<CR>
 " }}}
 
-" Vimux {{{
-" Bundle 'benmills/vimux'
-" " Prompt for a command to run
-" map rp :PromptVimTmuxCommand
-
-" " Run last command executed by RunVimTmuxCommand
-" map rl :RunLastVimTmuxCommand
-
-" " Inspect runner pane
-" map ri :InspectVimTmuxRunner
-
-" " Close all other tmux panes in current window
-" map rx :CloseVimTmuxPanes
-
-" " Interrupt any command running in the runner pane
-" map rs :InterruptVimTmuxRunner
-" }}}
-
-" vim-turbux {{{
-" Bundle 'jgdavey/vim-turbux'
-
-" let g:no_turbux_mappings = 1
-" let g:turbux_command_prefix = 'bundle exec'
-" map <leader>R <Plug>SendTestToTmux
-" map <leader>r <Plug>SendFocusedTestToTmux
-" }}}
-
 " Fugitive {{{
-Bundle 'tpope/vim-fugitive'
-
 noremap <leader>gs :Gstatus<cr>
 noremap <leader>gc :Gcommit<cr>
 noremap <leader>ga :Gwrite<cr>
@@ -337,8 +308,6 @@ noremap <leader>gd :Gdiff<cr>
 "}}}
 
 " Git Gutter {{{
-Bundle 'airblade/vim-gitgutter'
-
 " Make git gutter background clear
 highlight clear SignColumn
 autocmd ColorScheme * highlight clear SignColumn
@@ -346,32 +315,11 @@ let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 "}}}
 
-" {{{ vim-haml
-" This is for SASS syntax in vim 7.1
-Bundle 'tpope/vim-haml'
-autocmd! BufNewFile,BufRead *.scss setlocal ft=scss
-"}}}
-
-
 " {{{ markdown
-Bundle 'tpope/vim-markdown'
 let g:markdown_fenced_languages=['ruby','erb=eruby','javascript','html','sh']
 "}}}
 
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-bundler'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-rails.git'
-Bundle 'mileszs/ack.vim'
-Bundle 'nathanaelkane/vim-indent-guides'
-Bundle 'tpope/vim-rbenv'
-Bundle 'vim-scripts/bufexplorer.zip'
-Bundle 'vim-scripts/peaksea'
-Bundle 'tpope/vim-commentary'
-Bundle 'puppetlabs/puppet-syntax-vim'
-Bundle 'tpope/vim-eunuch'
-Bundle 'bling/vim-airline'
-
+" RSpec Stuff {{{
 autocmd FileType ruby
   \ if expand("%") =~# '_spec\.rb$' |
   \   compiler rspec | setl makeprg=spring\ rspec\ $*|
@@ -400,11 +348,9 @@ autocmd FileType ruby
 " map <leader>e :call RSpecParse() <CR>
 " command! RSpecParse call RSpecParse()
 
-" Rspec {{{
 " vim-ruby is required for this to work. Probably because
 " of older version of vim on work machine.
-"Bundle 'vim-ruby/vim-ruby'
-Bundle 'thoughtbot/vim-rspec'
+"Plugin 'vim-ruby/vim-ruby'
 
 "let g:rspec_command = "!spring rspec {spec}"
 
@@ -414,6 +360,13 @@ map <Leader>l :call RunLastSpec()<CR>
 map <Leader>a :call RunAllSpecs()<CR>
 " }}}
 
-"Bundle 'tpope/vim-dispatch'
+" {{{ vim-haml
+" This is for SASS syntax in vim 7.1
+"autocmd! BufNewFile,BufRead *.scss setlocal ft=scss
+"}}}
 
-filetype plugin indent on
+" Supertab and snipmate together {{{
+" http://superuser.com/questions/172266/vim-how-to-work-with-both-supertab-vim-with-snipmate-vim
+"let g:SuperTabDefaultCompletionType = "context"
+"let g:SuperTabDefaultCompletionType = "<C-X><C-O>"
+"}}}
