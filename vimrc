@@ -107,6 +107,12 @@ set ttyfast
 set wildmenu
 set mouse=a
 
+" # http://superuser.com/questions/549930/cant-resize-vim-splits-inside-tmux
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
+
 " From http://robots.thoughtbot.com/post/27041742805/vim-you-complete-me
 "set complete=.,b,u,]
 "set wildmode=longest,list:longest
