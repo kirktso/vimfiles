@@ -325,6 +325,10 @@ let g:gitgutter_eager = 0
 let g:markdown_fenced_languages=['ruby','erb=eruby','javascript','html','sh']
 "}}}
 
+" {{{ yankring
+let g:yankring_history_dir = '$VIM'
+"}}}
+
 " RSpec Stuff {{{
 autocmd FileType ruby
   \ if expand("%") =~# '_spec\.rb$' |
